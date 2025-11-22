@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='fr'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>Publier une recette</title>
+    <link rel='stylesheet' href='styles.css'>
+</head>
+
+<body>
+    <header class='site-header'>
+        <div class='brand'>
+           <div class='logo'><img src="images/IMG-20251114-WA0008.jpg" alt="" width="135%"></div>
+            <div class='brand-text'>
+                <h1>Cuisine Facile</h1>
+                <p class='tag'>Découvrir • Partager • Apprendre</p>
+            </div>
+        </div>
+        <nav id='topAuth'></nav>
+    </header>
+    <nav class='main-nav'><a href='index.html'>Accueil</a><a href='recettes.html'>Recettes</a><a
+            href='publier.html'>Publier</a><a href='profil.html'>Profil</a></nav>
+    <main class='container'>
+        <h2>Publier une recette</h2>
+        <form id='publishForm' class='form'><input id='pTitle' placeholder='Titre de la recette' required><input
+                id='pAuthor' placeholder='Auteur (laisser vide pour votre nom)'>
+            <div class='img-preview' id='imgPreview'>Aperçu image</div><input id='pImageFile' type='file'
+                accept='image/*'><textarea id='pIngredients'
+                placeholder='Liste des ingrédients (une par ligne)'></textarea><textarea id='pSteps'
+                placeholder='Étapes (une par ligne)'></textarea>
+            <div style='display:flex;gap:10px'><button class='btn btn-primary' type='submit'>Publier</button><a
+                    class='btn' href='recettes.html'>Annuler</a></div>
+        </form>
+    </main>
+    <footer class='site-footer'>© 2025 Cuisine Facile</footer>
+    <script src='app.js'></script>
+</body>
+
+</html>

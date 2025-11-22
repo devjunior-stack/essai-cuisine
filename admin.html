@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin - Gestion des Recettes</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <header class="site-header">
+    <div class="brand">
+      <div class='logo'><img src="images/IMG-20251114-WA0008.jpg" alt="" width="135%"></div>
+      <div class="brand-text"><h1>Espace de l'administrateur</h1></div>
+      <p class='tag'>Découvrir • Partager • Apprendre</p>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <a href="index.html">Accueil</a>
+    <a href="recettes.html">Recettes</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <main class="container">
+    <h2>Gestion des Recettes</h2>
+
+    <div id="recipesList" class="admin-list"></div>
+
+    <h3>Ajouter une recette</h3>
+    <form id="addForm">
+      <input id="title" placeholder="Titre de la recette" required>
+      <input id="image" placeholder="URL de l'image (ex: images/image1.png)" required>
+      
+      <br> <br> <br><textarea id="content" rows="5" placeholder="Description / étapes... (une étape par ligne)" required></textarea>
+       <br> <br><button class="btn btn-primary" type="submit">Ajouter</button>
+    </form>
+  </main>
+
+  <script>
+  // Admin script (will use app.js storage keys)
+  const RECIPES_KEY = 'cf_recipes_pro';
+
+  function loadRecipes(){ return JSON.parse(localStorage.getItem(RECIPES_KEY) || '[]'); }
+  function saveRecipes(list){ localStorage.setItem(RECIPES_KEY, JSON.stringify(list)); }
+
+  function loadAdminList(){
+    const container = document.getElementById('recipesList');
+    const recipes = loadRecipes();
+    container.innerHTML = '';
+    recipes.forEach((r, index) => {
+      const div = document.createElement('div');
+      div.className = 'admin-item card';
+      div.innerHTML = `
+        <div style="display:flex;gap:12px;align-items:center">
+          <img src="${r.img}" style="width:80px;height:60px;object-fit:cover;border-radius:8px">
+          <div>
+            <strong>${r.title}</strong><br><small>par ${r.author||'—'}</small>
+          </div>
+        </div>
+        <div><br>
+          <button class="btn" onclick="deleteRecipe(${index})">Supprimer</button>
+        </div>`;
+      container.appendChild(div);
+    });
+  }
+
+  function deleteRecipe(i){
+    const recipes = loadRecipes();
+    recipes.splice(i,1);
+    saveRecipes(recipes);
+    loadAdminList();
+  }
+
+  document.getElementById('addForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const title = document.getElementById('title').value.trim();
+    const img = document.getElementById('image').value.trim();
+    const steps = document.getElementById('content').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const list = loadRecipes();
+    const id = (list.reduce((m,x)=>Math.max(m,x.id),0) || 0) + 1;
+    list.unshift({ id, title, img, author:'Admin', ingredients:['Ingrédient 1'], steps });
+    saveRecipes(list);
+    this.reset();
+    loadAdminList();
+    alert('Recette ajoutée !');
+  });
+
+  loadAdminList();
+  </script>
+</body>
+</html>
